@@ -1,0 +1,28 @@
+# Автогенерируемые Qt
+build-*/
+*.pro.user
+*.autosave
+moc_*
+qrc_*
+ui_*
+.object_*
+*.qmlc
+*.jom
+
+# Исполняемые файлы
+*.exe
+*.app
+*.dll
+*.so
+*.a
+
+# Временные файлы
+debug/
+release/
+*.o
+*.patch
+*.orig
+
+# Системные файлы
+.DS_Store
+Thumbs.db
