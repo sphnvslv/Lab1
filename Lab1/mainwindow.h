@@ -26,7 +26,11 @@ public:
     qreal calculateHyperbolicFunc(const QString &funcName, qreal x);
     void toggleFileOperations(bool checked);
     QString logFileName = "hyperbolic_log.txt";
+
     qreal calculateAndLog(const QString &funcName, qreal x);
+
+    qreal calculateAndLog(const QString &funcName, qreal x); 
+
 
 
 
