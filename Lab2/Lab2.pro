@@ -1,5 +1,5 @@
-#QT += core gui widgets testlib
-#CONFIG += c++11
+QT += core gui widgets testlib
+CONFIG += c++11 testcase
 
 QT += testlib
 CONFIG += testcase

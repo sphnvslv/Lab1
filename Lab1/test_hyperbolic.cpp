@@ -27,7 +27,7 @@ void TestHyperbolic::testCothZeroDivision()
 void TestHyperbolic::testFileLogging()
 {
     QString testLogPath = "test_hyperbolic_log_" +
-                          QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz") +
+                          QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss") +
                           ".txt";
 
     MainWindow window;
@@ -39,7 +39,7 @@ void TestHyperbolic::testFileLogging()
         QVERIFY(QFile::remove(testLogPath));
     }
 
-    window.calculateAndLog("sinh", 1.0);  // Используем правильный метод
+    window.calculateAndLog("sinh", 1.0);
 
     QFile logFile(testLogPath);
     QVERIFY2(logFile.exists(), qPrintable(
@@ -48,7 +48,7 @@ void TestHyperbolic::testFileLogging()
     QVERIFY(logFile.open(QIODevice::ReadOnly));
     QString content = logFile.readAll();
     logFile.close();
-
+    А
     QVERIFY2(content.contains("sinh(1"), "В логе не найдена ожидаемая запись");
 
     window.logFileName = originalLogPath;

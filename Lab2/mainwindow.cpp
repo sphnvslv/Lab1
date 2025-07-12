@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     currentImageLabel(new QLabel(this)),
 
     imageLabel(new QLabel(this)),
-    searchEdit(new QLineEdit(this)),  // Перенесено после currentImageLabel
+    searchEdit(new QLineEdit(this)),
     searchBtn(new QPushButton("Поиск", this)),
     mainLayout(new QVBoxLayout())
 {
@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::setupUI()
 {
-    // Настройка виджетов
+
     listView->setModel(listViewModel);
     listView->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -68,21 +68,19 @@ void MainWindow::setupUI()
     searchLayout->addWidget(searchEdit);
     searchLayout->addWidget(searchBtn);
 
-    // Вставляем поиск перед списками
+
     mainLayout->addLayout(searchLayout);
 
-    // Основной виджет и layout
+
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
 
-    // Форма ввода
     QFormLayout *formLayout = new QFormLayout();
     formLayout->addRow("Модель:", modelEdit);
     formLayout->addRow("HDD (GB):", hddEdit);
     formLayout->addRow("Процессор:", cpuEdit);
 
-    // Кнопки
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(addBtn);
     buttonLayout->addWidget(deleteBtn);
@@ -91,7 +89,6 @@ void MainWindow::setupUI()
     buttonLayout->addWidget(refreshBtn);
     buttonLayout->addWidget(sortBtn);
 
-    // Компоновка
     mainLayout->addLayout(formLayout);
     mainLayout->addLayout(buttonLayout);
     mainLayout->addWidget(currentImageLabel);
@@ -121,11 +118,10 @@ void MainWindow::searchComputer()
 {
     QString searchText = searchEdit->text().trimmed().toLower();
     if (searchText.isEmpty()) {
-        refreshData(); // Если строка поиска пуста - показываем все
+        refreshData();
         return;
     }
 
-    // Поиск в QTableWidget
     for (int i = 0; i < tableWidget->rowCount(); ++i) {
         bool match = false;
         for (int j = 0; j < tableWidget->columnCount(); ++j) {
@@ -137,14 +133,12 @@ void MainWindow::searchComputer()
         tableWidget->setRowHidden(i, !match);
     }
 
-    // Поиск в QListView
     for (int i = 0; i < listViewModel->rowCount(); ++i) {
         QStandardItem *item = listViewModel->item(i);
         bool match = item->text().toLower().contains(searchText);
         listView->setRowHidden(i, !match);
     }
 
-    // Поиск в QListWidget
     for (int i = 0; i < listWidget->count(); ++i) {
         QListWidgetItem *item = listWidget->item(i);
         bool match = item->text().toLower().contains(searchText);
@@ -157,16 +151,14 @@ void MainWindow::loadInitialData()
 
 void MainWindow::addComputerToViews(const QString &model, double hdd, const QString &cpu, const QString &imagePath)
 {
-    // Добавление в QListView
+
     QStandardItem *item = new QStandardItem();
     item->setText(QString("%1 (%2GB, %3)").arg(model).arg(hdd).arg(cpu));
 
-    // Сохраняем путь к изображению в пользовательские данные
     if (!imagePath.isEmpty()) {
-        item->setData(imagePath, Qt::UserRole);  // Ключевое изменение!
+        item->setData(imagePath, Qt::UserRole);
     }
 
-    // Установка иконки, если изображение доступно
     if (!imagePath.isEmpty() && QFile::exists(imagePath)) {
         QPixmap pix(imagePath);
         if (!pix.isNull()) {
@@ -177,17 +169,14 @@ void MainWindow::addComputerToViews(const QString &model, double hdd, const QStr
 
     listViewModel->appendRow(item);
 
-    // Добавление в QTableWidget
     int row = tableWidget->rowCount();
     tableWidget->insertRow(row);
 
-    // QTableWidget
     QTableWidgetItem *modelItem = new QTableWidgetItem(model);
     tableWidget->setItem(row, 0, modelItem);
     tableWidget->setItem(row, 1, new QTableWidgetItem(QString::number(hdd)));
     tableWidget->setItem(row, 2, new QTableWidgetItem(cpu));
 
-    // QListWidget
     QListWidgetItem *listItem = new QListWidgetItem();
     listItem->setText(QString("%1 - %2GB - %3").arg(model).arg(hdd).arg(cpu));
 
@@ -211,7 +200,6 @@ void MainWindow::updateSelectedImage(const QItemSelection &selected)
     int row = selected.indexes().first().row();
     QStandardItem *item = listViewModel->item(row);
 
-    // Получаем путь к изображению из пользовательских данных
     QString imagePath = item->data(Qt::UserRole).toString();
 
     if (!imagePath.isEmpty() && QFile::exists(imagePath)) {
@@ -223,7 +211,6 @@ void MainWindow::updateSelectedImage(const QItemSelection &selected)
         }
     }
 
-    // Если изображения нет
     currentImageLabel->clear();
 }
 
@@ -245,16 +232,13 @@ void MainWindow::addComputer()
         return;
     }
 
-    // Диалог выбора изображения
     QString imagePath = QFileDialog::getOpenFileName(this,
                                                      "Выберите изображение компьютера",
                                                      "",
                                                      "Images (*.png *.jpg *.jpeg *.bmp);;Все файлы (*)");
 
-    // Если пользователь отменил выбор - imagePath будет пустой
     addComputerToViews(model, hdd, cpu, imagePath);
 
-    // Очистка полей ввода
     modelEdit->clear();
     hddEdit->clear();
     cpuEdit->clear();
@@ -263,19 +247,17 @@ void MainWindow::addComputer()
 
 void MainWindow::deleteSelectedComputer()
 {
-    // Удаление из QListView
+
     QModelIndexList selected = listView->selectionModel()->selectedIndexes();
     if (!selected.isEmpty()) {
         listViewModel->removeRow(selected.first().row());
     }
 
-    // Удаление из QTableWidget
     selected = tableWidget->selectionModel()->selectedRows();
     if (!selected.isEmpty()) {
         tableWidget->removeRow(selected.first().row());
     }
 
-    // Удаление из QListWidget
     QList<QListWidgetItem*> items = listWidget->selectedItems();
     if (!items.isEmpty()) {
         delete listWidget->takeItem(listWidget->row(items.first()));
@@ -309,7 +291,6 @@ void MainWindow::loadFromFile()
         return;
     }
 
-    // Очистка текущих данных
     refreshData();
 
     QTextStream in(&file);
@@ -348,13 +329,12 @@ void MainWindow::saveToFile()
             << tableWidget->item(i, 1)->text() << ", "
             << tableWidget->item(i, 2)->text();
 
-        // Сохраняем путь к изображению из данных элемента
         QStandardItem *item = listViewModel->item(i);
         QString imagePath = item->data(Qt::UserRole).toString();
         if (!imagePath.isEmpty()) {
             out << ", " << imagePath;
         }
-        out << "\n";  // Не забываем перенос строки
+        out << "\n";
     }
 
     file.close();
@@ -385,6 +365,4 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 
 MainWindow::~MainWindow()
-{
-    // Деструктор
-}
+{}
