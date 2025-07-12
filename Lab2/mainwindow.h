@@ -73,7 +73,7 @@ private:
 
     QVBoxLayout *mainLayout;
 
- // Поле для поиска
+
 
 };
 

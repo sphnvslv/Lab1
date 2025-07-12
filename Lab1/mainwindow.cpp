@@ -57,8 +57,8 @@ void MainWindow::calculate()
         return;
     }
 
-    QString funcDisplay = functionComboBox->currentText(); // "sinh x"
-    QString funcName = funcDisplay.split(" ").first();     // "sinh"
+    QString funcDisplay = functionComboBox->currentText();
+    QString funcName = funcDisplay.split(" ").first();
 
     try {
         qreal result = calculateHyperbolicFunc(funcName, x);
@@ -130,7 +130,7 @@ void MainWindow::showError(const QString &message)
 void MainWindow::openSettings()
 {
     SettingsDialog *dialog = new SettingsDialog(this);
-    dialog->exec(); // Модальное окно (нечётный вариант)
+    dialog->exec();
     delete dialog;
 }
 

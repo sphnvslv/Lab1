@@ -5,19 +5,18 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
-# Основное приложение
+
 SOURCES += main.cpp \
            mainwindow.cpp \
            settingsdialog.cpp \
-           test_hyperbolic.cpp  # Добавлено
+           test_hyperbolic.cpp
 
 HEADERS += mainwindow.h \
            settingsdialog.h \
-           test_hyperbolic.h    # Добавлено
+           test_hyperbolic.h
 
 FORMS += mainwindow.ui
 
-# Настройки для тестов
 CONFIG += testcase
 
 DISTFILES += \

@@ -21,6 +21,6 @@ HEADERS += \
     computer.h \
     testmainwindow.h
 
-# Убедитесь, что нет дублирования moc файлов
+
 MOC_DIR = $$PWD/build/moc
 OBJECTS_DIR = $$PWD/build/obj

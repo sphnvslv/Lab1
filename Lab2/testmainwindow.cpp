@@ -8,7 +8,7 @@ void TestMainWindow::testAddComputerWithoutImage() {
     MainWindow window;
     int initialRows = window.tableWidget->rowCount();
 
-    window.addComputerToViews("ASUS", 512, "Intel i7", "");
+    window.addComputerToViews("Model", 512, "i7", "");
 
     QCOMPARE(window.tableWidget->rowCount(), initialRows + 1);
     QCOMPARE(window.listViewModel->rowCount(), initialRows + 1);
@@ -16,12 +16,12 @@ void TestMainWindow::testAddComputerWithoutImage() {
 
     QTableWidgetItem *item = window.tableWidget->item(initialRows, 0);
     QVERIFY(item);
-    QCOMPARE(item->text(), QString("ASUS"));
+    QCOMPARE(item->text(), QString("Model"));
 }
 
 void TestMainWindow::testDeleteComputer() {
     MainWindow window;
-    window.addComputerToViews("Dell", 256, "AMD Ryzen", "");
+    window.addComputerToViews("Mod", 256, "i5", "");
 
     int lastRow = window.tableWidget->rowCount() - 1;
 
@@ -39,12 +39,12 @@ void TestMainWindow::testDeleteComputer() {
 void TestMainWindow::testSearchComputer() {
     MainWindow window;
     window.addComputerToViews("HP", 1024, "Intel i5", "");
-    window.addComputerToViews("Lenovo", 2048, "Intel i9", "");
+    window.addComputerToViews("Asus", 2048, "Intel i9", "");
 
-    window.searchEdit->setText("lenovo");
+    window.searchEdit->setText("Asus");
     window.searchComputer();
 
-    QVERIFY(window.tableWidget->isRowHidden(0));  // HP
-    QVERIFY(!window.tableWidget->isRowHidden(1)); // Lenovo
+    QVERIFY(window.tableWidget->isRowHidden(0));
+    QVERIFY(!window.tableWidget->isRowHidden(1));
 }
 

@@ -1,7 +1,7 @@
 #include <QApplication>
 #include "mainwindow.h"
 
-// Определите этот макрос для включения тестов
+
 #define RUN_TESTS
 
 #ifdef RUN_TESTS

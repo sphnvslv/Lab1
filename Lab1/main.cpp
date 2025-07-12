@@ -1,7 +1,7 @@
 #include <QApplication>
 #include "mainwindow.h"
 
-// Раскомментируйте для запуска тестов
+
  #define RUN_TESTS
 
 #ifdef RUN_TESTS
